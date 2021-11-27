@@ -43,4 +43,38 @@ class RateTest extends TestCase
     {
         self::assertNotEmpty(Dracma::getCurrenciesRate('USD', 'BRL', Carbon::parse('2021-11-26')));
     }
+
+    public function testItCanGetAnCurrenciesRateFromDriverWithTodayAsDefaultDate()
+    {
+        self::assertNotEmpty(Dracma::getCurrenciesRate('USD', 'BRL'));
+    }
+
+    public function testItCanGetMultipleCurrenciesRateFromDB()
+    {
+        $this->seed(CurrenciesRateSeeder::class);
+        $request = [
+            [
+                'from' => 'USD',
+                'to' => 'BRL',
+                'date' => '2021-11-26',
+            ],
+            [
+                'from' => 'USD',
+                'to' => 'COP',
+                'date' => '2021-11-26',
+            ],
+        ];
+
+        $currenciesRates = Dracma::getMultiplesCurrenciesRates($request);
+
+        self::assertEquals($request[0]['from'], $currenciesRates['2021-11-26_USD_BRL']['from']);
+        self::assertEquals($request[0]['to'], $currenciesRates['2021-11-26_USD_BRL']['to']);
+        self::assertEquals(5.63, $currenciesRates['2021-11-26_USD_BRL']['rate']);
+        self::assertEquals($request[0]['date'], $currenciesRates['2021-11-26_USD_BRL']['date']);
+
+        self::assertEquals($request[1]['from'], $currenciesRates['2021-11-26_USD_COP']['from']);
+        self::assertEquals($request[1]['to'], $currenciesRates['2021-11-26_USD_COP']['to']);
+        self::assertEquals(4007, $currenciesRates['2021-11-26_USD_COP']['rate']);
+        self::assertEquals($request[1]['date'], $currenciesRates['2021-11-26_USD_COP']['date']);
+    }
 }

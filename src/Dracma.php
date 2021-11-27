@@ -28,6 +28,33 @@ class Dracma
         return $currenciesRate->rate;
     }
 
+    public function getMultiplesCurrenciesRates(array $currenciesSettings): ?array
+    {
+        $query = CurrenciesRate::query();
+
+        foreach ($currenciesSettings as $setting) {
+            $query->orWhere([
+                ['from', '=', $setting['from']],
+                ['to', '=', $setting['to']],
+                ['date', '=', $setting['date'] ?? now()->format('Y-m-d')],
+            ]);
+        }
+
+        $currenciesRates = $query->get()
+            ->mapWithKeys(function ($item) {
+                $key = $item->date->format('Y-m-d').'_'.$item->from.'_'.$item->to;
+
+                return [$key => [
+                    'from' => $item->from,
+                    'to' => $item->to,
+                    'date' => $item->date->format('Y-m-d'),
+                    'rate' => $item->rate,
+                ]];
+            });
+
+        return $currenciesRates->all();
+    }
+
     protected function fetchCurrenciesRate(string $from, string $to, $date): ?CurrenciesRate
     {
         $currenciesRate = CurrenciesRate::where([

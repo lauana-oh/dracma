@@ -6,7 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static getCurrenciesRate(string $string, string $string1, ?Carbon $now = null)
+ * @method static float getCurrenciesRate(string $string, string $string1, ?Carbon $now = null)
+ * @method static array getMultiplesCurrenciesRates(array[] $request)
  */
 class Dracma extends Facade
 {
