@@ -38,8 +38,13 @@ class RateTest extends TestCase
     public function testItWillThrowAnExceptionIfRateCanNotBeFounded()
     {
         $this->expectException(InvalidRateException::class);
-        $this->expectExceptionMessage('The currencies rate from USD to BRL on 2021-11-26 could not be found.');
+        $this->expectExceptionMessage('The currencies rate from USD to YYY on 2021-11-26 could not be found.');
 
-        Dracma::getCurrenciesRate('USD', 'BRL', Carbon::parse('2021-11-26'));
+        Dracma::getCurrenciesRate('USD', 'YYY', Carbon::parse('2021-11-26'));
+    }
+
+    public function testItCanGetAnCurrenciesRateFromDriver()
+    {
+        self::assertNotEmpty(Dracma::getCurrenciesRate('USD', 'BRL', now()));
     }
 }

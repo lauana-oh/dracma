@@ -2,16 +2,16 @@
 
 namespace LauanaOH\Dracma\Facades;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Facade;
+use LauanaOH\Dracma\Contracts\DriverContract;
 
 /**
- * @method static getCurrenciesRate(string $string, string $string1, ?Carbon $now = null)
+ * @method static DriverContract getDriver()
  */
-class Dracma extends Facade
+class DriverManager extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'Dracma';
+        return 'DracmaDriverManager';
     }
 }
