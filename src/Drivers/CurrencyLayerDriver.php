@@ -39,12 +39,12 @@ class CurrencyLayerDriver implements DriverContract
 
     protected function fetchHistoricalRate(string $from, string $to, Carbon $date): ?array
     {
-        $response = $this->client->request('GET', $this->baseUrl . 'historical', [
+        $response = $this->client->request('GET', $this->baseUrl.'historical', [
             'query' => [
                 'access_key' => $this->accessKey,
                 'date' => $date->format('Y-m-d'),
                 'source' => $from,
-                'currencies' => $to
+                'currencies' => $to,
             ],
         ]);
 

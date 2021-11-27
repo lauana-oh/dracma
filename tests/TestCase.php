@@ -15,7 +15,7 @@ class TestCase extends OrchestraTestCase
             'database' => ':memory:',
         ]);
 
-        include_once __DIR__ . '/../database/migrations/create_currencies_rates_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_currencies_rates_table.php.stub';
 
         (new \CreateCurrenciesRatesTable)->up();
     }
@@ -26,5 +26,4 @@ class TestCase extends OrchestraTestCase
             DracmaServiceProvider::class,
         ];
     }
-
 }

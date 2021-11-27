@@ -22,7 +22,7 @@ class Dracma
 
         $currenciesRate = $this->fetchCurrenciesRate($from, $to, $date);
 
-        if (!$currenciesRate) {
+        if (! $currenciesRate) {
             throw InvalidRateException::notFound($from, $to, $date->format('Y-m-d'));
         }
 

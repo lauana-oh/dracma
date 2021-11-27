@@ -15,7 +15,7 @@ class CurrenciesRateFactory extends Factory
             'from' => 'USD',
             'to' => array_rand(array_flip(['COP', 'BRL', 'CRC', 'CLP', 'PEN'])),
             'rate' => random_int(1, 500) / 100,
-            'date' => $this->faker->date
+            'date' => $this->faker->date,
         ];
     }
 }
