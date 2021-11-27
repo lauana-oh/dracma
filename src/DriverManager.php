@@ -3,9 +3,10 @@
 namespace LauanaOH\Dracma;
 
 use LauanaOH\Dracma\Contracts\DriverContract;
+use LauanaOH\Dracma\Contracts\DriverManagerContract;
 use LauanaOH\Dracma\Drivers\NullDriver;
 
-class DracmaDriverManager
+class DriverManager implements DriverManagerContract
 {
     public function getDriver(): DriverContract
     {

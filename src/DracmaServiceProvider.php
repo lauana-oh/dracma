@@ -5,9 +5,18 @@ namespace LauanaOH\Dracma;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
+use LauanaOH\Dracma\Contracts\DriverManagerContract;
 
 class DracmaServiceProvider extends ServiceProvider
 {
+    public array $bindings = [
+        ClientInterface::class => Client::class,
+    ];
+
+    public array $singletons = [
+        DriverManagerContract::class => DriverManager::class,
+    ];
+
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/dracma.php', 'dracma');
@@ -38,18 +47,12 @@ class DracmaServiceProvider extends ServiceProvider
     protected function registerResources(): void
     {
         $this->registerFacades();
-
-        $this->app->bind(ClientInterface::class, Client::class);
     }
 
     protected function registerFacades(): void
     {
         $this->app->singleton('Dracma', function () {
             return new Dracma();
-        });
-
-        $this->app->singleton('DracmaDriverManager', function () {
-            return new DracmaDriverManager();
         });
     }
 }

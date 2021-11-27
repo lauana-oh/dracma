@@ -3,8 +3,8 @@
 namespace LauanaOH\Dracma;
 
 use Carbon\Carbon;
+use LauanaOH\Dracma\Contracts\DriverManagerContract;
 use LauanaOH\Dracma\Exception\InvalidRateException;
-use LauanaOH\Dracma\Facades\DriverManager;
 use LauanaOH\Dracma\Models\CurrenciesRate;
 
 class Dracma
@@ -13,7 +13,7 @@ class Dracma
 
     public function __construct()
     {
-        $this->driver = DriverManager::getDriver();
+        $this->driver = app(DriverManagerContract::class)->getDriver();
     }
 
     public function getCurrenciesRate(string $from, string $to, ?Carbon $date = null): ?float
