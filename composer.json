@@ -11,7 +11,8 @@
     "autoload": {
         "psr-4": {
             "LauanaOH\\Dracma\\": "src/",
-            "LauanaOH\\Dracma\\Database\\Factories\\": "database/factories"
+            "LauanaOH\\Dracma\\Database\\Factories\\": "database/factories",
+            "LauanaOH\\Dracma\\Database\\Seeders\\": "database/seeders"
         }
     },
     "autoload-dev": {

@@ -19,7 +19,6 @@ class Dracma
     public function getCurrenciesRate(string $from, string $to, ?Carbon $date = null): ?float
     {
         $date ??= now();
-
         $currenciesRate = $this->fetchCurrenciesRate($from, $to, $date);
 
         if (! $currenciesRate) {
@@ -31,10 +30,11 @@ class Dracma
 
     protected function fetchCurrenciesRate(string $from, string $to, $date): ?CurrenciesRate
     {
-        $currenciesRate = CurrenciesRate::where('from', $from)
-            ->where('to', $to)
-            ->where('date', $date->format('Y-m-d'))
-            ->first();
+        $currenciesRate = CurrenciesRate::where([
+            ['from', '=', $from],
+            ['to', '=', $to],
+            ['date', '=', $date->format('Y-m-d')],
+        ])->first();
 
         return $currenciesRate ?? $this->driver->getCurrenciesRate($from, $to, $date);
     }

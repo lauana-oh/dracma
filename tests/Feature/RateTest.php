@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use LauanaOH\Dracma\Database\Seeders\CurrenciesRateSeeder;
 use LauanaOH\Dracma\Exception\InvalidRateException;
 use LauanaOH\Dracma\Facades\Dracma;
 use LauanaOH\Dracma\Models\CurrenciesRate;
@@ -15,13 +16,8 @@ class RateTest extends TestCase
 
     public function testItCanGetAnCurrenciesRateFromDB()
     {
-        CurrenciesRate::factory()->create([
-            'to' => 'BRL',
-            'rate' => 5.63,
-            'date' => now()->format('Y-m-d'),
-        ]);
-
-        self::assertEquals(5.63, Dracma::getCurrenciesRate('USD', 'BRL', now()));
+        $this->seed(CurrenciesRateSeeder::class);
+        self::assertEquals(5.63, Dracma::getCurrenciesRate('USD', 'BRL', Carbon::parse('2021-11-26')));
     }
 
     public function testItCanGetAnCurrenciesRateWithTodayAsDefaultDate()
@@ -45,6 +41,6 @@ class RateTest extends TestCase
 
     public function testItCanGetAnCurrenciesRateFromDriver()
     {
-        self::assertNotEmpty(Dracma::getCurrenciesRate('USD', 'BRL', now()));
+        self::assertNotEmpty(Dracma::getCurrenciesRate('USD', 'BRL', Carbon::parse('2021-11-26')));
     }
 }
