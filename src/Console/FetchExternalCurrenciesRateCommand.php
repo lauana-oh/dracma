@@ -4,7 +4,7 @@ namespace LauanaOH\Dracma\Console;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use LauanaOH\Dracma\Contracts\DriverManagerContract;
+use LauanaOH\Dracma\Helpers\DriverHelper;
 
 class FetchExternalCurrenciesRateCommand extends Command
 {
@@ -14,7 +14,7 @@ class FetchExternalCurrenciesRateCommand extends Command
 
     protected $description = 'Fetch source currencies rate from driver';
 
-    public function handle(DriverManagerContract $driverManager): int
+    public function handle(): int
     {
         $date = $this->argument('date') ? Carbon::parse($this->argument('date')) : now();
 
@@ -24,7 +24,7 @@ class FetchExternalCurrenciesRateCommand extends Command
             return self::FAILURE;
         }
 
-        $driver = $driverManager->getDriver($this->option('driver'));
+        $driver = DriverHelper::getDriver($this->option('driver'));
 
         $this->line(
             'It will be fetch currencies rates from '.config('dracma.source', 'USD')

@@ -5,9 +5,9 @@ namespace LauanaOH\Dracma;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use LauanaOH\Dracma\Contracts\CurrenciesRateRepositoryContract;
-use LauanaOH\Dracma\Contracts\DriverManagerContract;
 use LauanaOH\Dracma\Exception\InvalidRateException;
 use LauanaOH\Dracma\Helpers\CurrenciesRateHelper;
+use LauanaOH\Dracma\Helpers\DriverHelper;
 use LauanaOH\Dracma\Models\CurrenciesRate;
 
 class Dracma
@@ -18,7 +18,7 @@ class Dracma
 
     public function __construct()
     {
-        $this->driver = app(DriverManagerContract::class)->getDriver();
+        $this->driver = DriverHelper::getDriver();
         $this->repository = app(CurrenciesRateRepositoryContract::class);
         $this->source = config('dracma.source', 'USD');
     }
