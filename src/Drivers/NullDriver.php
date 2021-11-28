@@ -12,4 +12,9 @@ class NullDriver implements DriverContract
     {
         return collect();
     }
+
+    public function getName(): string
+    {
+        return 'null';
+    }
 }

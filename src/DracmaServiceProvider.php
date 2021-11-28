@@ -5,6 +5,7 @@ namespace LauanaOH\Dracma;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
+use LauanaOH\Dracma\Console\FetchExternalCurrenciesRateCommand;
 use LauanaOH\Dracma\Contracts\CurrenciesRateRepositoryContract;
 use LauanaOH\Dracma\Contracts\DriverManagerContract;
 use LauanaOH\Dracma\Repositories\CurrenciesRateRepository;
@@ -29,6 +30,10 @@ class DracmaServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->registerPublishing();
+
+            $this->commands([
+                FetchExternalCurrenciesRateCommand::class,
+            ]);
         }
 
         $this->registerResources();

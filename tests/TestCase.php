@@ -15,6 +15,8 @@ class TestCase extends OrchestraTestCase
             'database' => ':memory:',
         ]);
 
+        $app['config']->set('dracma.driver', 'mock');
+
         include_once __DIR__.'/../database/migrations/create_currencies_rates_table.php.stub';
 
         (new \CreateCurrenciesRatesTable)->up();

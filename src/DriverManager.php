@@ -8,9 +8,9 @@ use LauanaOH\Dracma\Drivers\NullDriver;
 
 class DriverManager implements DriverManagerContract
 {
-    public function getDriver(): DriverContract
+    public function getDriver(?string $driverType = null): DriverContract
     {
-        $driverType = config('dracma.driver');
+        $driverType ??= config('dracma.driver');
 
         $className = array_reduce(explode('_', $driverType), function ($name, $word) {
             return $name.ucfirst($word);

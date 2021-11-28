@@ -23,6 +23,11 @@ class CurrencyLayerDriver implements DriverContract
         $this->client = app(ClientInterface::class);
     }
 
+    public function getName(): string
+    {
+        return 'currency_layer';
+    }
+
     public function getCurrenciesRatesFromSource(Collection $currencies, Carbon $date): Collection
     {
         $currenciesRates = collect();
@@ -38,7 +43,10 @@ class CurrencyLayerDriver implements DriverContract
                 $to = substr($key, -3);
 
                 $currenciesRates->prepend(
-                    CurrenciesRate::create(compact('from', 'to', 'quote', 'date')),
+                    CurrenciesRate::updateOrCreate(
+                        compact('from', 'to', 'date'),
+                        compact('quote')
+                    ),
                     $to
                 );
             }
