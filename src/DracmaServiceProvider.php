@@ -7,12 +7,14 @@ use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
 use LauanaOH\Dracma\Console\FetchExternalCurrenciesRateCommand;
 use LauanaOH\Dracma\Contracts\CurrenciesRateRepositoryContract;
+use LauanaOH\Dracma\Contracts\ManagerContract;
 use LauanaOH\Dracma\Repositories\CurrenciesRateRepository;
 
 class DracmaServiceProvider extends ServiceProvider
 {
     public array $bindings = [
         ClientInterface::class => Client::class,
+        ManagerContract::class => DracmaManager::class,
     ];
 
     public array $singletons = [
