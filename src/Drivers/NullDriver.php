@@ -3,13 +3,13 @@
 namespace LauanaOH\Dracma\Drivers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use LauanaOH\Dracma\Contracts\DriverContract;
-use LauanaOH\Dracma\Models\CurrenciesRate;
 
 class NullDriver implements DriverContract
 {
-    public function getCurrenciesRate(string $from, string $to, Carbon $date): ?CurrenciesRate
+    public function getCurrenciesRatesFromSource(Collection $currencies, Carbon $date): Collection
     {
-        return null;
+        return collect();
     }
 }

@@ -22,6 +22,7 @@
     },
     "require": {
         "php": "^7.4",
+        "ext-bcmath": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.4"
     },
