@@ -41,7 +41,7 @@ class Dracma
     {
         $currenciesRequests = $this->normalizeRequest($currenciesRequests);
 
-        foreach($this->requestsGroupedByDate($currenciesRequests) as $date => $requests) {
+        foreach ($this->requestsGroupedByDate($currenciesRequests) as $date => $requests) {
             $currencies = $requests->reduce(function (Collection $currencies, CurrenciesRate $request) {
                 return $currencies->push($request->from, $request->to);
             }, collect())->unique();
@@ -52,7 +52,7 @@ class Dracma
                 $from = $sourceRates->get($request->from);
                 $to = $sourceRates->get($request->to);
 
-                if (!$from || !$to) {
+                if (! $from || ! $to) {
                     $request->quote = 'Unable to fetch currencies rate quote.';
                     continue;
                 }
@@ -62,19 +62,19 @@ class Dracma
         }
 
         return $currenciesRequests->map(function ($item) {
-                return [
+            return [
                     'from' => $item->from,
                     'to' => $item->to,
                     'date' => $item->date->format('Y-m-d'),
                     'quote' => $item->quote,
                 ];
-            })->all();
+        })->all();
     }
 
     protected function normalizeRequest(array $currenciesRequests): Collection
     {
         return collect($currenciesRequests)->mapWithKeys(function ($setting) {
-            if (!isset($setting['from']) || !isset($setting['to'])) {
+            if (! isset($setting['from']) || ! isset($setting['to'])) {
                 throw new \Exception();
             }
 
@@ -85,7 +85,7 @@ class Dracma
             ]);
 
             return [
-                CurrenciesRateHelper::getKey($currenciesRate) => $currenciesRate
+                CurrenciesRateHelper::getKey($currenciesRate) => $currenciesRate,
             ];
         });
     }
@@ -93,6 +93,7 @@ class Dracma
     protected function getNormalizeDate($date): Carbon
     {
         $date ??= now();
+
         return $date instanceof Carbon ? $date : Carbon::parse($date);
     }
 
@@ -102,7 +103,7 @@ class Dracma
             'from' => $this->source,
             'to' => $this->source,
             'quote' => 1,
-            'date' => $date
+            'date' => $date,
         ])]);
     }
 

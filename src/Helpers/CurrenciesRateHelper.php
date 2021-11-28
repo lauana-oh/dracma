@@ -17,6 +17,6 @@ class CurrenciesRateHelper
 
     public static function getKey(CurrenciesRate $currenciesRate): string
     {
-        return $currenciesRate->date->format('Y-m-d').'_' . $currenciesRate->from . '_'. $currenciesRate->to;
+        return $currenciesRate->date->format('Y-m-d').'_'.$currenciesRate->from.'_'.$currenciesRate->to;
     }
 }

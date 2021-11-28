@@ -29,6 +29,6 @@ class CurrenciesRateRepository implements CurrenciesRateRepositoryContract
         }
 
         return  $query->get()
-            ->keyBy(fn(CurrenciesRate $item) => $item->to);
+            ->keyBy(fn (CurrenciesRate $item) => $item->to);
     }
 }
