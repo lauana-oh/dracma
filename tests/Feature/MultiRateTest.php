@@ -79,4 +79,34 @@ class MultiRateTest extends TestCase
         self::assertNotEmpty($currenciesRates['2021-11-26_USD_CAD']['quote']);
         self::assertEquals($request[1]['date'], $currenciesRates['2021-11-26_USD_CAD']['date']);
     }
+
+    public function testItShowsMessageWhenRateIsNotFound()
+    {
+        $this->seed(CurrenciesRateSeeder::class);
+
+        $request = [
+            [
+                'from' => 'USD',
+                'to' => 'BRL',
+                'date' => '2021-11-26',
+            ],
+            [
+                'from' => 'YYY',
+                'to' => 'COP',
+                'date' => '2021-11-26',
+            ],
+        ];
+
+        $currenciesRates = Dracma::getMultiplesCurrenciesRates($request);
+
+        self::assertEquals($request[0]['from'], $currenciesRates['2021-11-26_USD_BRL']['from']);
+        self::assertEquals($request[0]['to'], $currenciesRates['2021-11-26_USD_BRL']['to']);
+        self::assertEquals(5.63, $currenciesRates['2021-11-26_USD_BRL']['quote']);
+        self::assertEquals($request[0]['date'], $currenciesRates['2021-11-26_USD_BRL']['date']);
+
+        self::assertEquals($request[1]['from'], $currenciesRates['2021-11-26_YYY_COP']['from']);
+        self::assertEquals($request[1]['to'], $currenciesRates['2021-11-26_YYY_COP']['to']);
+        self::assertEquals('Unable to get currencies rate quote.', $currenciesRates['2021-11-26_YYY_COP']['quote']);
+        self::assertEquals($request[1]['date'], $currenciesRates['2021-11-26_YYY_COP']['date']);
+    }
 }

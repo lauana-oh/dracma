@@ -42,33 +42,15 @@ class Dracma
         $currenciesRequests = $this->normalizeRequest($currenciesRequests);
 
         foreach ($this->requestsGroupedByDate($currenciesRequests) as $date => $requests) {
-            $currencies = $requests->reduce(function (Collection $currencies, CurrenciesRate $request) {
-                return $currencies->push($request->from, $request->to);
-            }, collect())->unique();
+            $sourceRates = $this->getSourceRates(
+                $this->getCurrencies($requests),
+                $requests->first()->date
+            );
 
-            $sourceRates = $this->getSourceRates($currencies, $requests->first()->date);
-
-            foreach ($requests as $request) {
-                $from = $sourceRates->get($request->from);
-                $to = $sourceRates->get($request->to);
-
-                if (! $from || ! $to) {
-                    $request->quote = 'Unable to fetch currencies rate quote.';
-                    continue;
-                }
-
-                $request->quote = CurrenciesRateHelper::getRateQuoteFromSameSource($from, $to);
-            }
+            $this->fillRequestsQuote($requests, $sourceRates);
         }
 
-        return $currenciesRequests->map(function ($item) {
-            return [
-                    'from' => $item->from,
-                    'to' => $item->to,
-                    'date' => $item->date->format('Y-m-d'),
-                    'quote' => $item->quote,
-                ];
-        })->all();
+        return $this->requestsToArray($currenciesRequests);
     }
 
     protected function normalizeRequest(array $currenciesRequests): Collection
@@ -126,5 +108,41 @@ class Dracma
         return $currenciesRequests->groupBy(function ($request) {
             return $request->date->format('Y-m-d');
         });
+    }
+
+    protected function fillRequestsQuote(Collection $requests, Collection $sourceRates): void
+    {
+        foreach ($requests as $request) {
+            $from = $sourceRates->get($request->from);
+            $to = $sourceRates->get($request->to);
+
+            if (! $from || ! $to) {
+                $request->quote = 'Unable to get currencies rate quote.';
+                continue;
+            }
+
+            $request->quote = CurrenciesRateHelper::getRateQuoteFromSameSource($from, $to);
+        }
+    }
+
+    protected function getCurrencies($requests)
+    {
+        $currencies = $requests->reduce(function (Collection $currencies, CurrenciesRate $request) {
+            return $currencies->push($request->from, $request->to);
+        }, collect())->unique();
+
+        return $currencies;
+    }
+
+    protected function requestsToArray(Collection $currenciesRequests): array
+    {
+        return $currenciesRequests->map(function ($item) {
+            return [
+                'from' => $item->from,
+                'to' => $item->to,
+                'date' => $item->date->format('Y-m-d'),
+                'quote' => $item->quote,
+            ];
+        })->all();
     }
 }

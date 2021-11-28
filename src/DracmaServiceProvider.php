@@ -30,10 +30,7 @@ class DracmaServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->registerPublishing();
-
-            $this->commands([
-                FetchExternalCurrenciesRateCommand::class,
-            ]);
+            $this->registerCommands();
         }
 
         $this->registerResources();
@@ -62,5 +59,12 @@ class DracmaServiceProvider extends ServiceProvider
         $this->app->singleton('Dracma', function () {
             return new Dracma();
         });
+    }
+
+    protected function registerCommands(): void
+    {
+        $this->commands([
+            FetchExternalCurrenciesRateCommand::class,
+        ]);
     }
 }
