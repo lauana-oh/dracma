@@ -14,9 +14,16 @@ class FetchExternalCurrenciesRateCommand extends Command
 
     protected $description = 'Fetch source currencies rate from driver';
 
-    public function handle(DriverManagerContract $driverManager)
+    public function handle(DriverManagerContract $driverManager): int
     {
         $date = $this->argument('date') ? Carbon::parse($this->argument('date')) : now();
+
+        if ($date->greaterThan(now())) {
+            $this->error('Date cannot be greater than today');
+
+            return self::FAILURE;
+        }
+
         $driver = $driverManager->getDriver($this->option('driver'));
 
         $this->line(
@@ -27,5 +34,7 @@ class FetchExternalCurrenciesRateCommand extends Command
         $rates = $driver->getCurrenciesRatesFromSource(collect(), $date);
 
         $this->info('It has been fetch '.$rates->count().' currencies rates.');
+
+        return self::SUCCESS;
     }
 }
