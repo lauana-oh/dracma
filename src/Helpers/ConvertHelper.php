@@ -18,7 +18,7 @@ class ConvertHelper
     public static function convert(string $from, string $to, string $value, float $quote): float
     {
         $converter = new Converter(self::getCurrencies(), new FixedExchange([
-            $from => [ $to => $quote ]
+            $from => [$to => $quote],
         ]));
 
         $convertedValue = $converter->convert(self::getParser()->parse($value, new Currency($from)), new Currency($to));
@@ -28,7 +28,7 @@ class ConvertHelper
 
     protected static function getCurrencies(): ISOCurrencies
     {
-        if (!isset(self::$currencies)) {
+        if (! isset(self::$currencies)) {
             self::$currencies = new ISOCurrencies();
         }
 
@@ -37,7 +37,7 @@ class ConvertHelper
 
     protected static function getParser(): DecimalMoneyParser
     {
-        if (!isset(self::$parser)) {
+        if (! isset(self::$parser)) {
             self::$parser = new DecimalMoneyParser(self::getCurrencies());
         }
 
@@ -46,7 +46,7 @@ class ConvertHelper
 
     protected static function getFormatter(): DecimalMoneyFormatter
     {
-        if (!isset(self::$formatter)) {
+        if (! isset(self::$formatter)) {
             self::$formatter = new DecimalMoneyFormatter(self::getCurrencies());
         }
 

@@ -37,7 +37,7 @@ class ConvertTest extends TestCase
                 'to' => 'CLP',
                 'date' => '2021-11-26',
                 'value' => 1,
-            ]
+            ],
         ];
 
         $response = $request;

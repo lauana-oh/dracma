@@ -32,6 +32,7 @@ class Dracma
     public function convert(string $from, string $to, string $value, $date = null): ?float
     {
         $quote = $this->getCurrenciesRateQuote($from, $to, $date);
+
         return ConvertHelper::convert($from, $to, $value, $quote);
     }
 
@@ -40,7 +41,7 @@ class Dracma
         $rates = $this->getMultiplesCurrenciesRates($currenciesRequests);
 
         return collect($currenciesRequests)->map(function ($request) use ($rates) {
-            if (!isset($request['date'])) {
+            if (! isset($request['date'])) {
                 $request['date'] = now()->format('Y-m-d');
             }
 
