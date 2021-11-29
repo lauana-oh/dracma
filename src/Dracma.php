@@ -4,11 +4,6 @@ namespace LauanaOH\Dracma;
 
 use LauanaOH\Dracma\Contracts\ManagerContract;
 use LauanaOH\Dracma\Helpers\ConvertHelper;
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\DecimalMoneyFormatter;
-use Money\Money;
-use Money\Parser\DecimalMoneyParser;
 
 class Dracma
 {

@@ -2,13 +2,10 @@
 
 namespace Tests\Feature;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use LauanaOH\Dracma\Database\Seeders\CurrenciesRateSeeder;
-use LauanaOH\Dracma\Exception\InvalidRateException;
 use LauanaOH\Dracma\Facades\Dracma;
-use LauanaOH\Dracma\Models\CurrenciesRate;
 use Tests\TestCase;
 
 class MultiRateTest extends TestCase

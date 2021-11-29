@@ -2,6 +2,7 @@
 
 namespace LauanaOH\Dracma\Helpers;
 
+use LauanaOH\Dracma\Exception\DracmaException;
 use LauanaOH\Dracma\Models\CurrenciesRate;
 
 class CurrenciesRateHelper
@@ -9,7 +10,7 @@ class CurrenciesRateHelper
     public static function getRateQuoteFromSameSource(CurrenciesRate $from, CurrenciesRate $to): float
     {
         if ($from->date->format('Y-m-d') !== $to->date->format('Y-m-d') || $from->from !== $to->from) {
-            throw new \Exception();
+            throw new DracmaException('Currencies do not have the same source.');
         }
 
         return bcdiv($to->quote, $from->quote, 4);
